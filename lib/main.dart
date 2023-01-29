@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import 'add_entry_screen.dart';
+import 'entry_screen.dart';
+import 'settings_screen.dart';
 
 void main() {
   runApp(const DigitalJournal());
