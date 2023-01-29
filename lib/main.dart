@@ -1,68 +1,90 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
-import 'settings_screen.dart';
+import 'package:hello_world/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const DigitalJournal());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DigitalJournal extends StatelessWidget {
+  const DigitalJournal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home: const NavigationScreen(),
+    return const MaterialApp(
+        title: "Digital Journal",
+        home: MyNavigationBar()
     );
   }
 }
 
-class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({Key? key}) : super(key: key);
+class MyNavigationBar extends StatefulWidget {
+  const MyNavigationBar({Key? key}) : super(key: key);
 
   @override
-  State<NavigationScreen> createState() => _NavigationScreenState();
+  State<MyNavigationBar> createState() => _MyNavigationBarState();
 }
 
-class _NavigationScreenState extends State<NavigationScreen> {
-  int _currentIndex = 0;
-  final List<Widget> _children = [
-    const HomeScreen(),
-    const SettingsScreen(),
+class _MyNavigationBarState extends State<MyNavigationBar> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Home(),
+    Entries(),
+    NewEntry(),
+    Settings(),
   ];
 
-  void onTappedBar(int index) {
+  void _onItemTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      _selectedIndex = index;
     });
+  }
+
+  Widget _navigationBar() {
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.folder),
+          label: 'All Entries',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add),
+          label: 'New Entry',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: 'Settings',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      selectedItemColor: Colors.indigo,
+      iconSize: 40,
+      unselectedItemColor: Colors.cyan,
+      showUnselectedLabels: true,
+      showSelectedLabels: true,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTappedBar,
-        currentIndex: _currentIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "settings",
-          ),
+      appBar: AppBar(
+        title: const Text("My Digital Journal"),
+        actions: [
+          IconButton(
+              onPressed: () { },
+              icon: const Icon(Icons.search)
+          )
         ],
       ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: _navigationBar(),
     );
   }
 }
-
-
-
-

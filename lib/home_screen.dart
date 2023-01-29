@@ -1,21 +1,60 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Screen"),
+    return Container(
+      color: Colors.white24,
+      child: const Center(
+        child: Text(
+            'Welcome to your Digital Journal!',
+            textScaleFactor: 1.75
+        ),
       ),
-      body: Center(
-        child: Text("This is the Home Screen."),
+    );
+  }
+}
+
+class Entries extends StatelessWidget {
+  const Entries({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+        child: Text(
+            'View past entries here',
+            textScaleFactor: 1.75
+        )
+    );
+  }
+}
+
+class NewEntry extends StatelessWidget {
+  const NewEntry({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+          'Make a new Entry here',
+          textScaleFactor: 1.75
+      ),
+    );
+  }
+}
+
+
+class Settings extends StatelessWidget {
+  const Settings({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+          'Welcome to settings',
+          textScaleFactor: 1.75
       ),
     );
   }
