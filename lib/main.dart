@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
-import 'add_entry_screen.dart';
-import 'entry_screen.dart';
-import 'settings_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/entry_screen.dart';
+import 'screens/note_editor_screen.dart';
+import 'screens/settings_screen.dart';
 
 void main() {
   runApp(const DigitalJournal());
@@ -14,8 +14,8 @@ class DigitalJournal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: "Digital Journal",
-        home: MyNavigationBar()
+      title: "Digital Journal",
+      home: MyNavigationBar(),
     );
   }
 }
@@ -29,13 +29,14 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(
+    fontSize: 30, fontWeight: FontWeight.bold
+  );
   static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Entries(),
-    NewEntry(),
-    Settings(),
+    HomeScreen(),
+    EntryScreen(),
+    NoteEditorScreen(),
+    SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -66,11 +67,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       ],
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
-      selectedItemColor: Colors.indigo,
       iconSize: 40,
+      selectedItemColor: Colors.indigo,
       unselectedItemColor: Colors.cyan,
-      showUnselectedLabels: true,
       showSelectedLabels: true,
+      showUnselectedLabels: true,
     );
   }
 
@@ -81,9 +82,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         title: const Text("My Digital Journal"),
         actions: [
           IconButton(
-              onPressed: () { },
-              icon: const Icon(Icons.search)
-          )
+            onPressed: () {},
+            icon: const Icon(Icons.search)
+          ),
         ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
