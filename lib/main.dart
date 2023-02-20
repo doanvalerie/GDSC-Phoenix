@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/entry_screen.dart';
 import 'screens/note_editor_screen.dart';
 import 'screens/settings_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const DigitalJournal());
 }
 
@@ -13,12 +17,17 @@ class DigitalJournal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
       title: "Digital Journal",
       home: MyNavigationBar(),
     );
   }
 }
+
+ValueNotifier selectedIndexGlobal = ValueNotifier(0);
 
 class MyNavigationBar extends StatefulWidget {
   const MyNavigationBar({Key? key}) : super(key: key);
@@ -41,7 +50,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndexGlobal.value = index;
     });
   }
 
@@ -65,7 +74,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           label: 'Settings',
         ),
       ],
-      currentIndex: _selectedIndex,
+      currentIndex: selectedIndexGlobal.value,
       onTap: _onItemTapped,
       iconSize: 40,
       selectedItemColor: Colors.indigo,
@@ -77,18 +86,23 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Digital Journal"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search)
+    return ValueListenableBuilder(
+      valueListenable: selectedIndexGlobal,
+      builder: (BuildContext context, value, Widget? child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("My Digital Journal"),
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.search)
+              ),
+            ],
           ),
-        ],
-      ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: _navigationBar(),
+          body: _widgetOptions.elementAt(selectedIndexGlobal.value),
+          bottomNavigationBar: _navigationBar(),
+        );
+      },
     );
   }
 }
