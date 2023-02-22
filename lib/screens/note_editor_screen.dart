@@ -30,16 +30,17 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /* TextField(
-                  controller: _mainControlller,
+                TextField(
+                  controller: _titleController,
                   keyboardType: TextInputType.multiline,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Enter your entry.",
+                    icon: Icon(Icons.edit),
+                    hintText: "Title",
                   ),
-                ), */
+                ),
                 TextFormField(
-                  controller: _titleController,
+                  controller: _mainControlller,
                   minLines: 10,
                   maxLines: 10,
                   decoration: const InputDecoration(
