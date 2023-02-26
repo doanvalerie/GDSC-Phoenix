@@ -32,7 +32,7 @@ class DigitalJournal extends StatelessWidget {
         indicatorColor: Colors.white,
       ),
       title: "Digital Journal",
-      home: MyNavigationBar(),
+      home: const MyNavigationBar(),
     );
   }
 }
@@ -47,10 +47,8 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(
-    fontSize: 30, fontWeight: FontWeight.bold
-  );
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     EntryScreen(),
@@ -115,4 +113,30 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       },
     );
   }
+}
+
+String timeAmPm(int hour) {
+  if (hour >= 12) {
+    return "PM";
+  } else {
+    return "AM";
+  }
+}
+
+int hourConversion(int hour) {
+  if (hour > 12) {
+    return hour - 12;
+  } else {
+    return hour;
+  }
+}
+
+String timeString(int hour, int minute) {
+  String ts = "";
+  ts += "${hourConversion(hour).toString()}:";
+  if (minute < 10) {
+    ts += "0";
+  }
+  ts += "${minute.toString()} ${timeAmPm(hour)}";
+  return ts;
 }
