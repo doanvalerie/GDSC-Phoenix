@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_screen.dart';
 import 'screens/entry_screen.dart';
 import 'screens/note_editor_screen.dart';
@@ -18,8 +19,17 @@ class DigitalJournal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // themeMode: ThemeMode.,
       theme: ThemeData(
         useMaterial3: true,
+        textTheme: GoogleFonts.ralewayTextTheme(
+          Theme.of(context).textTheme.apply(
+            bodyColor: Colors.white,
+          )
+        ),
+        brightness: Brightness.dark,
+        primaryColor: Colors.black,
+        indicatorColor: Colors.white,
       ),
       title: "Digital Journal",
       home: MyNavigationBar(),
@@ -77,8 +87,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       currentIndex: selectedIndexGlobal.value,
       onTap: _onItemTapped,
       iconSize: 40,
-      selectedItemColor: Colors.indigo,
-      unselectedItemColor: Colors.cyan,
+      type: BottomNavigationBarType.shifting,
+      selectedItemColor: Colors.blue.shade200,
+      unselectedItemColor: Colors.blue.shade200.withOpacity(.60),
       showSelectedLabels: true,
       showUnselectedLabels: true,
     );
@@ -91,13 +102,12 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       builder: (BuildContext context, value, Widget? child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("My Digital Journal"),
-            actions: [
+            title: const Text("My Journal"),
+            leading:
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search)
+                onPressed: () {},
+                icon: const Icon(Icons.edit_note)
               ),
-            ],
           ),
           body: _widgetOptions.elementAt(selectedIndexGlobal.value),
           bottomNavigationBar: _navigationBar(),

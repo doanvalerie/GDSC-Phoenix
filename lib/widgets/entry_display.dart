@@ -9,14 +9,41 @@ Widget entryDisplay(Function() ? onTap, QueryDocumentSnapshot doc) {
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
+        color: Colors.blue.shade50,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(doc["title"]),
-          Text(doc["date"]),
+          
+          Text(
+            doc["title"],
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+          Row(
+            children: [
+              const Icon(
+                Icons.calendar_month,
+                color: Colors.black38,
+                size: 15.0,
+              ),
+              const SizedBox(width: 2.0),
+              Text(
+                doc["date"],
+                style: const TextStyle(
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
           Text(
             doc["note"],
+            style: const TextStyle(
+              color: Colors.black,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
         ],
