@@ -16,42 +16,43 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream:
-                  FirebaseFirestore.instance.collection("Entries").snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      return ListView(
-                        padding: const EdgeInsets.all(8),
-                        children: snapshot.data!.docs
-                            .map<Widget>((note) => entryDisplay((){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                NoteReaderScreen(note),
-                            ),
-                          );
-                        }, note)).toList(),
-                      );
-                    }
-                    return const Text(
-                      "Create your first entry.",
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Entries")
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   }
-              ),
-            ),
-          ],
-        ),
-      );
+                  if (snapshot.hasData) {
+                    return ListView(
+                      padding: const EdgeInsets.all(8),
+                      children: snapshot.data!.docs
+                          .map<Widget>((note) => entryDisplay(context, () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NoteReaderScreen(note),
+                                  ),
+                                );
+                              }, note))
+                          .toList(),
+                    );
+                  }
+                  return const Text(
+                    "Create your first entry.",
+                  );
+                }),
+          ),
+        ],
+      ),
+    );
   }
 }
