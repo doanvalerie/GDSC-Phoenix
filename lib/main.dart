@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +6,7 @@ import 'screens/home_screen.dart';
 import 'screens/entry_screen.dart';
 import 'screens/note_editor_screen.dart';
 import 'screens/settings_screen.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,27 +14,62 @@ Future<void> main() async {
   runApp(const DigitalJournal());
 }
 
+class AppThemes {
+  static const int lightGray = 0;
+  static const int lightRed = 1;
+  static const int lightOrange = 2;
+  //static const int lightYellow = 3;
+  static const int lightGreen = 4;
+  static const int lightBlue = 5;
+  static const int lightPurple = 6;
+  static const int lightPink = 7;
+  static const int dark = 8;
+}
+
+final themeCollection = ThemeCollection(
+  themes: {
+    AppThemes.lightGray: ThemeData(primarySwatch: Colors.grey),
+    AppThemes.lightRed: ThemeData(primarySwatch: Colors.red),
+    AppThemes.lightOrange: ThemeData(primarySwatch: Colors.orange),
+    //AppThemes.lightYellow: ThemeData(primarySwatch: Colors.yellow),
+    AppThemes.lightGreen: ThemeData(primarySwatch: Colors.green),
+    AppThemes.lightBlue: ThemeData(primarySwatch: Colors.blue),
+    AppThemes.lightPurple: ThemeData(primarySwatch: Colors.purple),
+    AppThemes.lightPink: ThemeData(primarySwatch: Colors.pink),
+    AppThemes.dark: ThemeData.dark(),
+  },
+  fallbackTheme: ThemeData(primarySwatch: Colors.grey),
+);
+
 class DigitalJournal extends StatelessWidget {
   const DigitalJournal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // themeMode: ThemeMode.,
-      theme: ThemeData(
-        useMaterial3: true,
-        textTheme: GoogleFonts.ralewayTextTheme(
-          Theme.of(context).textTheme.apply(
-            bodyColor: Colors.white,
-          )
-        ),
-        brightness: Brightness.dark,
-        primaryColor: Colors.black,
-        indicatorColor: Colors.white,
-      ),
-      title: "Digital Journal",
-      home: const MyNavigationBar(),
-    );
+    return DynamicTheme(
+        themeCollection: themeCollection,
+        defaultThemeId: AppThemes.lightBlue,
+        builder: ((context, themeData) {
+          return MaterialApp(
+            theme: ThemeData(
+              useMaterial3: true,
+              brightness: themeData.brightness,
+              textTheme:
+                  GoogleFonts.mulishTextTheme(Theme.of(context).textTheme.apply(
+                        bodyColor: (themeData.brightness == Brightness.light)
+                            ? Colors.black
+                            : Colors.white,
+                      )),
+              primaryColor: themeData.primaryColor,
+              indicatorColor: themeData.indicatorColor,
+              /* primaryColorDark: (themeData.brightness == Brightness.light)
+                  ? themeData.primaryColorDark
+                  : themeData.primaryColorLight, */
+            ),
+            title: "Digital Journal",
+            home: const MyNavigationBar(),
+          );
+        }));
   }
 }
 
@@ -86,8 +122,12 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       onTap: _onItemTapped,
       iconSize: 40,
       type: BottomNavigationBarType.shifting,
-      selectedItemColor: Colors.blue.shade200,
-      unselectedItemColor: Colors.blue.shade200.withOpacity(.60),
+      selectedItemColor: (Theme.of(context).brightness == Brightness.light)
+          ? Theme.of(context).primaryColor
+          : Colors.white,
+      unselectedItemColor: (Theme.of(context).brightness == Brightness.light)
+          ? Theme.of(context).primaryColor.withOpacity(.6)
+          : Colors.white.withOpacity(.6),
       showSelectedLabels: true,
       showUnselectedLabels: true,
     );
@@ -101,11 +141,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         return Scaffold(
           appBar: AppBar(
             title: const Text("My Journal"),
+            backgroundColor: Theme.of(context).primaryColor,
             leading:
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.edit_note)
-              ),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.edit_note)),
           ),
           body: _widgetOptions.elementAt(selectedIndexGlobal.value),
           bottomNavigationBar: _navigationBar(),
@@ -126,6 +164,8 @@ String timeAmPm(int hour) {
 int hourConversion(int hour) {
   if (hour > 12) {
     return hour - 12;
+  } else if (hour == 0) {
+    return hour + 12;
   } else {
     return hour;
   }

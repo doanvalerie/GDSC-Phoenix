@@ -14,7 +14,8 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Entry"),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text("Viewing Entry"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -23,10 +24,21 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
           children: [
             Text(widget.doc["folder_name"] + " > " + widget.doc["title"]),
             Text(widget.doc["date"]),
+            Text(widget.doc["title"],
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'Georgia',
+                )),
+            const SizedBox(height: 4.0),
+            Opacity(opacity: .8, child: Text(widget.doc["date"])),
+            const SizedBox(height: 4.0),
+            const Divider(
+              thickness: 2,
+            ),
             const SizedBox(height: 18.0),
             Text(
               widget.doc["note"],
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
