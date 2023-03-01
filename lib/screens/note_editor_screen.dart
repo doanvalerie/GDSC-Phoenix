@@ -23,6 +23,24 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Add an entry."),
+          actions: [
+            FloatingActionButton.extended(
+                backgroundColor: Theme.of(context).primaryColor,
+                label: const Text('Done'),
+                icon: const Icon(Icons.check),
+                elevation: 0,
+                onPressed: () async {
+                  FirebaseFirestore.instance.collection("Entries").add({
+                    "title": _titleController.text,
+                    "date": date,
+                    "note": _mainControlller.text,
+                  }).then((value) {
+                    selectedIndexGlobal.value = 0;
+                  }).catchError((error) =>
+                      // ignore: avoid_print, invalid_return_type_for_catch_error
+                      print("Failled to add entry due to $error"));
+                })
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -43,35 +61,26 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                   controller: _mainControlller,
                   minLines: 10,
                   maxLines: 10,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     hintText: "Enter your entry.",
                   ),
                 ),
-                Text(date),
-                const SizedBox(height: 28.0),
-                FloatingActionButton.extended(
-                    label: const Text('Done'),
-                    icon: const Icon(Icons.add),
-                    onPressed: () async {
-                      FirebaseFirestore.instance.collection("Entries").add({
-                        "title": _titleController.text,
-                        "date": date,
-                        "note": _mainControlller.text,
-                      }).then((value) {
-                        selectedIndexGlobal.value = 0;
-                      }).catchError((error) =>
-                          print("Failled to add entry due to $error"));
-                    }),
+                const SizedBox(height: 4.0),
+                Opacity(
+                  opacity: .8,
+                  child: Text(date),
+                ),
+                //const SizedBox(height: 28.0),
               ],
             ),
           ),
