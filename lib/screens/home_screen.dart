@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'note_reader_screen.dart';
 import '../widgets/entry_display.dart';
 
@@ -21,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("Entries")
-                    .snapshots(),
+              stream:
+                FirebaseFirestore.instance.collection("Entries")
+                    .orderBy('date', descending: true).snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -34,22 +33,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     return ListView(
                       padding: const EdgeInsets.all(8),
                       children: snapshot.data!.docs
-                          .map<Widget>((note) => entryDisplay(context, () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        NoteReaderScreen(note),
-                                  ),
-                                );
-                              }, note))
-                          .toList(),
+                          .map<Widget>((note) => entryDisplay((){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                              NoteReaderScreen(note),
+                          ),
+                        );
+                      }, note)).toList(),
                     );
                   }
                   return const Text(
                     "Create your first entry.",
                   );
-                }),
+                }
+            ),
           ),
         ],
       ),

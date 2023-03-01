@@ -19,7 +19,6 @@ Widget entryDisplay(
             doc["title"],
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              //color: Colors.black87,
             ),
             overflow: TextOverflow.ellipsis,
           ),

@@ -7,19 +7,19 @@ Widget FolderDisplay(Function() ? onTap, QueryDocumentSnapshot doc) {
     child: Container(
       padding: const EdgeInsets.all(8.0),
       margin: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Colors.blue.shade50,
-      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
+          const Icon(
+            Icons.folder,
+            color: Colors.lightBlue,
+            size: 150,
+          ),
           Text(
             doc["title"],
             style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15.5,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
             ),
             overflow: TextOverflow.ellipsis,
           ),
