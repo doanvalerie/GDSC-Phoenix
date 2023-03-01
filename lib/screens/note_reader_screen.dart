@@ -22,7 +22,6 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(widget.doc["folder_name"] + " > " + widget.doc["title"]),
-            //Text(),
             Text(widget.doc["date"]),
             const SizedBox(height: 18.0),
             Text(

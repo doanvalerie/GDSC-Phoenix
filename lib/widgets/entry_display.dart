@@ -14,23 +14,14 @@ Widget entryDisplay(Function() ? onTap, QueryDocumentSnapshot doc) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           Text(
             doc["title"],
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
               color: Colors.black87,
+              fontWeight: FontWeight.bold,
             ),
             overflow: TextOverflow.ellipsis,
           ),
-          // Text(
-          //   doc["folder_name"],
-          //   style: const TextStyle(
-          //     fontWeight: FontWeight.bold,
-          //     color: Colors.black87,
-          //   ),
-          //   overflow: TextOverflow.ellipsis,
-          // ),
           Row(
             children: [
               const Icon(

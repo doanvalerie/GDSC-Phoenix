@@ -13,15 +13,17 @@ class FolderReaderScreen extends StatefulWidget {
 }
 
 class _FolderReaderScreenState extends State<FolderReaderScreen> {
-  @override
- Stream<QuerySnapshot<Object>> getStream() {
+  Stream<QuerySnapshot<Object>> getStream() {
     return  FirebaseFirestore.instance.collection("Folders").doc(folder_title).collection("Entries").snapshots();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Folder"),
+        title: Text(
+          folder_title,
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -29,32 +31,31 @@ class _FolderReaderScreenState extends State<FolderReaderScreen> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-                stream: getStream(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    return ListView(
-                      padding: const EdgeInsets.all(8),
-                      children: snapshot.data!.docs
-                          .map<Widget>((note) => entryDisplay((){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                NoteReaderScreen(note),
-                          ),
-                        );
-                      }, note)).toList(),
-                    );
-                  }
-                  return const Text(
-                    "Create your first entry.",
+              stream: getStream(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
+                if (snapshot.hasData) {
+                  return ListView(
+                    padding: const EdgeInsets.all(8),
+                    children: snapshot.data!.docs.map<Widget>((note) => entryDisplay((){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              NoteReaderScreen(note),
+                        ),
+                      );
+                    }, note)).toList(),
+                  );
+                }
+                return const Text(
+                  "Create your first entry.",
+                );
+              }
             ),
           ),
         ],
