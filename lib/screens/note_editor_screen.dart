@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gdsc_phoenix/main.dart';
+import 'dart:io';
 
 class NoteEditorScreen extends StatefulWidget {
   const NoteEditorScreen({Key? key}) : super(key: key);
@@ -9,15 +10,33 @@ class NoteEditorScreen extends StatefulWidget {
   @override
   State<NoteEditorScreen> createState() => _NoteEditorScreenState();
 }
+List<DropdownMenuItem<String>> l = [DropdownMenuItem(child: Text("Unfiled"), value: "Unfiled")];
+
 
 class _NoteEditorScreenState extends State<NoteEditorScreen> {
+
+  Object _dropDownValue = "Unfiled";
+
+  CollectionReference _collectionRef = FirebaseFirestore.instance.collection('collection');
+
+
+  void dropDownCallback(Object? selectedValue){
+    if(selectedValue is Object){
+      setState((){
+        _dropDownValue = selectedValue
+        ;
+      });
+    }
+  }
   String date =
       ("${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year} at ${timeString(DateTime.now().hour, DateTime.now().minute)}");
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _mainControlller = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
+    //updateFolders();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -39,6 +58,33 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                     hintText: "Title",
                   ),
                 ),
+                StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection("Folders").snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                      }
+                      if(snapshot.hasData){
+                          return DropdownButton(
+                            value: _dropDownValue.toString(),
+                              items: snapshot.data!.docs.map((map) => DropdownMenuItem(
+                                  child: Text(map["title"]),
+                                  value: map["title"],
+                              ),
+                              ).toList(),
+                              onChanged: dropDownCallback);
+                      }
+                      else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }
+
+
+              ),
                 TextFormField(
                   controller: _mainControlller,
                   minLines: 10,
@@ -67,16 +113,25 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                         "title": _titleController.text,
                         "date": date,
                         "note": _mainControlller.text,
+                        "folder_name": _dropDownValue.toString(),
                       }).then((value) {
                         selectedIndexGlobal.value = 0;
                       }).catchError((error) =>
-                          print("Failled to add entry due to $error"));
+                          print("Failed to add entry due to $error"));
+                      FirebaseFirestore.instance.collection("Folders").doc(_dropDownValue.toString()).collection("Entries").add({
+                      "title": _titleController.text,
+                      "date": date,
+                      "note": _mainControlller.text,
+                      "folder_name": _dropDownValue.toString(),
+                      }).then((value) {
+                      selectedIndexGlobal.value = 0;
+                      }).catchError((error) =>
+                      print("Failed to add entry due to $error"));
                     }),
-              ],
+            ]
             ),
           ),
         ),
-      ),
-    );
+    ));
   }
 }

@@ -23,6 +23,14 @@ Widget entryDisplay(Function() ? onTap, QueryDocumentSnapshot doc) {
             ),
             overflow: TextOverflow.ellipsis,
           ),
+          // Text(
+          //   doc["folder_name"],
+          //   style: const TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //     color: Colors.black87,
+          //   ),
+          //   overflow: TextOverflow.ellipsis,
+          // ),
           Row(
             children: [
               const Icon(
