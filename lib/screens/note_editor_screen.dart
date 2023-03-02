@@ -80,15 +80,15 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                 controller: _mainControlller,
                 minLines: 15,
                 maxLines: 15,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   hintText: "Enter your entry.",
@@ -97,6 +97,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
               Text(date),
               const SizedBox(height: 28.0),
               FloatingActionButton.extended(
+                backgroundColor: Theme.of(context).primaryColor,
                 label: const Text('Done'),
                 icon: const Icon(Icons.add),
                 onPressed: () async {

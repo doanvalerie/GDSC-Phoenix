@@ -22,14 +22,14 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.doc["folder_name"] + " > " + widget.doc["title"]),
-            Text(widget.doc["date"]),
             Text(widget.doc["title"],
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'Georgia',
-                )),
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Georgia',
+              ),
+            ),
+            Text(widget.doc["folder_name"]),
             const SizedBox(height: 4.0),
             Opacity(opacity: .8, child: Text(widget.doc["date"])),
             const SizedBox(height: 4.0),
@@ -39,6 +39,9 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
             const SizedBox(height: 18.0),
             Text(
               widget.doc["note"],
+              style: const TextStyle(
+                fontSize: 18,
+              ),
             ),
           ],
         ),

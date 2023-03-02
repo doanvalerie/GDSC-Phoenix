@@ -41,12 +41,12 @@ class _FolderReaderScreenState extends State<FolderReaderScreen> {
                 if (snapshot.hasData) {
                   return ListView(
                     padding: const EdgeInsets.all(8),
-                    children: snapshot.data!.docs.map<Widget>((note) => entryDisplay((){
+                    children: snapshot.data!.docs
+                        .map<Widget>((note) => entryDisplay(context, (){
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              NoteReaderScreen(note),
+                          builder: (context) => NoteReaderScreen(note),
                         ),
                       );
                     }, note)).toList(),

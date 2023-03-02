@@ -48,7 +48,7 @@ class _EntryScreenState extends State<EntryScreen> {
                       crossAxisCount: 2
                     ),
                     children: snapshot.data!.docs
-                        .map<Widget>((folder) => FolderDisplay((){
+                        .map<Widget>((folder) => FolderDisplay(context, (){
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -76,7 +76,8 @@ class _EntryScreenState extends State<EntryScreen> {
           }
         },
         label: const Text ("Add Folder"),
-        icon: const Icon(Icons.add)
+        icon: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }

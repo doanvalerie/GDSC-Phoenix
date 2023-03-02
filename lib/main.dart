@@ -1,4 +1,3 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,39 +6,13 @@ import 'screens/entry_screen.dart';
 import 'screens/note_editor_screen.dart';
 import 'screens/settings_screen.dart';
 import 'package:dynamic_themes/dynamic_themes.dart';
+import 'themes/app_themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const DigitalJournal());
 }
-
-class AppThemes {
-  static const int lightGray = 0;
-  static const int lightRed = 1;
-  static const int lightOrange = 2;
-  //static const int lightYellow = 3;
-  static const int lightGreen = 4;
-  static const int lightBlue = 5;
-  static const int lightPurple = 6;
-  static const int lightPink = 7;
-  static const int dark = 8;
-}
-
-final themeCollection = ThemeCollection(
-  themes: {
-    AppThemes.lightGray: ThemeData(primarySwatch: Colors.grey),
-    AppThemes.lightRed: ThemeData(primarySwatch: Colors.red),
-    AppThemes.lightOrange: ThemeData(primarySwatch: Colors.orange),
-    //AppThemes.lightYellow: ThemeData(primarySwatch: Colors.yellow),
-    AppThemes.lightGreen: ThemeData(primarySwatch: Colors.green),
-    AppThemes.lightBlue: ThemeData(primarySwatch: Colors.blue),
-    AppThemes.lightPurple: ThemeData(primarySwatch: Colors.purple),
-    AppThemes.lightPink: ThemeData(primarySwatch: Colors.pink),
-    AppThemes.dark: ThemeData.dark(),
-  },
-  fallbackTheme: ThemeData(primarySwatch: Colors.grey),
-);
 
 class DigitalJournal extends StatelessWidget {
   const DigitalJournal({Key? key}) : super(key: key);
@@ -55,11 +28,12 @@ class DigitalJournal extends StatelessWidget {
               useMaterial3: true,
               brightness: themeData.brightness,
               textTheme:
-                  GoogleFonts.mulishTextTheme(Theme.of(context).textTheme.apply(
-                        bodyColor: (themeData.brightness == Brightness.light)
-                            ? Colors.black
-                            : Colors.white,
-                      )),
+                GoogleFonts.mulishTextTheme(Theme.of(context).textTheme.apply(
+                  bodyColor: (themeData.brightness == Brightness.light)
+                      ? Colors.black
+                      : Colors.white,
+                  )
+                ),
               primaryColor: themeData.primaryColor,
               indicatorColor: themeData.indicatorColor,
               /* primaryColorDark: (themeData.brightness == Brightness.light)
@@ -69,7 +43,9 @@ class DigitalJournal extends StatelessWidget {
             title: "Digital Journal",
             home: const MyNavigationBar(),
           );
-        }));
+        }
+      ),
+    );
   }
 }
 
@@ -84,7 +60,7 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     EntryScreen(),

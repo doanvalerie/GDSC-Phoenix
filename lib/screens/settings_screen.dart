@@ -1,6 +1,6 @@
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:gdsc_phoenix/main.dart';
+import 'package:gdsc_phoenix/themes/app_themes.dart';
 
 class _MyColor {
   const _MyColor(this.color, this.name);
