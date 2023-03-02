@@ -102,24 +102,25 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                 label: const Text('Done'),
                 icon: const Icon(Icons.add),
                 onPressed: () async {
-                  FirebaseFirestore.instance.collection("Entries").add({
-                    "title": _titleController.text,
-                    "date": date,
-                    "note": _mainControlller.text,
-                    "folder_name": _dropDownValue.toString(),
-                  }).then((value) {
-                    selectedIndexGlobal.value = 0;
-                  });
-                  FirebaseFirestore.instance.collection("Folders")
+                  var newEntryAdded = await FirebaseFirestore.instance.collection("Folders")
                     .doc(_dropDownValue.toString()).collection("Entries").add({
                       "title": _titleController.text,
                       "date": date,
                       "note": _mainControlller.text,
                       "folder_name": _dropDownValue.toString(),
-                    }).then((value) {
-                      selectedIndexGlobal.value = 0;
-                    }
-                  );
+                      "id": "",
+                    },
+                    );
+                  newEntryAdded.update({"id": newEntryAdded.id});
+                  FirebaseFirestore.instance.collection("Entries").add({
+                    "title": _titleController.text,
+                    "date": date,
+                    "note": _mainControlller.text,
+                    "folder_name": _dropDownValue.toString(),
+                    "id": newEntryAdded.id,
+                  }).then((value) {
+                    selectedIndexGlobal.value = 0;
+                  });
                 }
               ),
             ],

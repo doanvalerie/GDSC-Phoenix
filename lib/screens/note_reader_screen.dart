@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gdsc_phoenix/screens/folder_reader_screen.dart';
+import 'note_updater_screen.dart';
 
 class NoteReaderScreen extends StatefulWidget {
   const NoteReaderScreen(this.doc, {Key? key}) : super(key: key);
@@ -10,12 +12,30 @@ class NoteReaderScreen extends StatefulWidget {
 }
 
 class _NoteReaderScreenState extends State<NoteReaderScreen> {
+  final CollectionReference _foldersReference = FirebaseFirestore.instance.collection("Folders");
+  final CollectionReference _entriesReference = FirebaseFirestore.instance.collection("Entries");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text("Viewing Entry"),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              String id = widget.doc["id"];
+              Query query = _entriesReference.where("id", isEqualTo: id);
+              QuerySnapshot querySnapshot = await query.get();
+              for (var doc in querySnapshot.docs) {
+                doc.reference.delete();
+              }
+              _foldersReference.doc(widget.doc["folder_name"]).collection("Entries").doc(id).delete();
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.delete),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -46,6 +66,19 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  NoteUpdaterScreen(doc: widget.doc),
+            ),
+          );
+        },
+        child: const Icon(Icons.edit_note),
+      ),
     );
+
   }
 }

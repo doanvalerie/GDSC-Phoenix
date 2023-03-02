@@ -14,7 +14,8 @@ class FolderReaderScreen extends StatefulWidget {
 
 class _FolderReaderScreenState extends State<FolderReaderScreen> {
   Stream<QuerySnapshot<Object>> getStream() {
-    return  FirebaseFirestore.instance.collection("Folders").doc(folder_title).collection("Entries").snapshots();
+    return FirebaseFirestore.instance.collection("Folders").doc(folder_title)
+        .collection("Entries").orderBy('date', descending: true).snapshots();
   }
 
   @override
