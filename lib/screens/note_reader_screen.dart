@@ -22,16 +22,26 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.doc["title"],
+            Text(
+              widget.doc["title"],
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.normal,
                 fontFamily: 'Georgia',
               ),
             ),
-            Text(widget.doc["folder_name"]),
-            const SizedBox(height: 4.0),
-            Opacity(opacity: .8, child: Text(widget.doc["date"])),
+            Row(
+              children: [
+                Text(widget.doc["folder_name"]),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Text("•"),
+                ),
+                Expanded(
+                  child: Opacity(opacity: .8, child: Text(widget.doc["date"])),
+                ),
+              ],
+            ),
             const SizedBox(height: 4.0),
             const Divider(
               thickness: 2,

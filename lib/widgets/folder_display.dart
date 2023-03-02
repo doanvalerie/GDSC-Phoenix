@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget FolderDisplay(BuildContext context, Function() ? onTap, QueryDocumentSnapshot doc) {
+Widget FolderDisplay(
+    BuildContext context, Function()? onTap, QueryDocumentSnapshot doc) {
   return InkWell(
     onTap: onTap,
     child: Container(
@@ -11,7 +12,9 @@ Widget FolderDisplay(BuildContext context, Function() ? onTap, QueryDocumentSnap
         children: [
           Icon(
             Icons.folder,
-            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            color: (Theme.of(context).brightness == Brightness.light)
+                ? Theme.of(context).primaryColor.withOpacity(.5)
+                : Theme.of(context).primaryColor.withOpacity(.8),
             size: 150,
           ),
           Text(

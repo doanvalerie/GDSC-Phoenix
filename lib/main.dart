@@ -17,28 +17,28 @@ class DigitalJournal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        themeCollection: themeCollection,
-        defaultThemeId: AppThemes.lightBlue,
-        builder: ((context, themeData) {
-          return MaterialApp(
-            theme: ThemeData(
-              useMaterial3: true,
-              brightness: themeData.brightness,
-              textTheme: GoogleFonts.mulishTextTheme(
-                Theme.of(context).textTheme.apply(
-                bodyColor: (themeData.brightness == Brightness.light)
-                    ? Colors.black
-                    : Colors.white,
-                ),
-              ),
-              primaryColor: themeData.primaryColor,
-              indicatorColor: themeData.indicatorColor,
+      themeCollection: themeCollection,
+      defaultThemeId: AppThemes.lightBlue,
+      builder: ((context, themeData) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            brightness: themeData.brightness,
+            textTheme: GoogleFonts.mulishTextTheme(
+              Theme.of(context).textTheme.apply(
+                    bodyColor: (themeData.brightness == Brightness.light)
+                        ? const Color.fromARGB(255, 43, 43, 43)
+                        : const Color.fromARGB(255, 241, 241, 241),
+                  ),
             ),
-            title: "Digital Journal",
-            home: const MyNavigationBar(),
-          );
-        }
-      ),
+            primaryColor: themeData.primaryColor,
+            indicatorColor: themeData.indicatorColor,
+          ),
+          title: "Digital Journal",
+          home: const MyNavigationBar(),
+        );
+      }),
     );
   }
 }
