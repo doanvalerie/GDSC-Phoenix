@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gdsc_phoenix/main.dart';
+import 'navigation_bar.dart';
+import 'package:gdsc_phoenix/format/time.dart';
 
 class NoteEditorScreen extends StatefulWidget {
   const NoteEditorScreen({Key? key}) : super(key: key);
@@ -27,7 +28,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
     }
   }
   String date =
-      ("${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year} at ${timeString(DateTime.now().hour, DateTime.now().minute)}");
+      ("${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}"
+       " at ${timeString(DateTime.now().hour, DateTime.now().minute)}");
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _mainControlller = TextEditingController();
 
@@ -59,15 +61,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                     );
                   }
                   if (snapshot.hasData){
-                      return DropdownButton(
-                        value: _dropDownValue.toString(),
-                          items: snapshot.data!.docs.map((map) => DropdownMenuItem(
-                              value: map["title"],
-                              child: Text(map["title"]),
-                          ),
-                          ).toList(),
-                          onChanged: dropDownCallback
-                      );
+                    return DropdownButton(
+                      value: _dropDownValue.toString(),
+                        items: snapshot.data!.docs.map((map) => DropdownMenuItem(
+                          value: map["title"],
+                          child: Text(map["title"]),
+                        )).toList(),
+                      onChanged: dropDownCallback
+                    );
                   }
                   else {
                     return const Center(
@@ -78,8 +79,8 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
               ),
               TextFormField(
                 controller: _mainControlller,
-                minLines: 15,
-                maxLines: 15,
+                minLines: 13,
+                maxLines: 13,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -109,14 +110,16 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
                   }).then((value) {
                     selectedIndexGlobal.value = 0;
                   });
-                  FirebaseFirestore.instance.collection("Folders").doc(_dropDownValue.toString()).collection("Entries").add({
-                    "title": _titleController.text,
-                    "date": date,
-                    "note": _mainControlller.text,
-                    "folder_name": _dropDownValue.toString(),
-                  }).then((value) {
-                    selectedIndexGlobal.value = 0;
-                  });
+                  FirebaseFirestore.instance.collection("Folders")
+                    .doc(_dropDownValue.toString()).collection("Entries").add({
+                      "title": _titleController.text,
+                      "date": date,
+                      "note": _mainControlller.text,
+                      "folder_name": _dropDownValue.toString(),
+                    }).then((value) {
+                      selectedIndexGlobal.value = 0;
+                    }
+                  );
                 }
               ),
             ],

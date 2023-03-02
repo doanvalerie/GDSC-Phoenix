@@ -23,30 +23,30 @@ class _HomeScreenState extends State<HomeScreen> {
               stream:
                 FirebaseFirestore.instance.collection("Entries")
                     .orderBy('date', descending: true).snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    return ListView(
-                      padding: const EdgeInsets.all(8),
-                      children: snapshot.data!.docs
-                          .map<Widget>((note) => entryDisplay(context, (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NoteReaderScreen(note),
-                          ),
-                        );
-                      }, note)).toList(),
-                    );
-                  }
-                  return const Text(
-                    "Create your first entry.",
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
+                if (snapshot.hasData) {
+                  return ListView(
+                    padding: const EdgeInsets.all(8),
+                    children: snapshot.data!.docs
+                        .map<Widget>((note) => entryDisplay(context, (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteReaderScreen(note),
+                        ),
+                      );
+                    }, note)).toList(),
+                  );
+                }
+                return const Text(
+                  "Create your first entry.",
+                );
+              }
             ),
           ),
         ],
