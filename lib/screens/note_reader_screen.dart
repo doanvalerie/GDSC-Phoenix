@@ -42,16 +42,26 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.doc["title"],
+            Text(
+              widget.doc["title"],
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.normal,
                 fontFamily: 'Georgia',
               ),
             ),
-            Text(widget.doc["folder_name"]),
-            const SizedBox(height: 4.0),
-            Opacity(opacity: .8, child: Text(widget.doc["date"])),
+            Row(
+              children: [
+                Text(widget.doc["folder_name"]),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text("•"),
+                ),
+                Expanded(
+                  child: Opacity(opacity: .8, child: Text(widget.doc["date"])),
+                ),
+              ],
+            ),
             const SizedBox(height: 4.0),
             const Divider(
               thickness: 2,
@@ -67,6 +77,7 @@ class _NoteReaderScreenState extends State<NoteReaderScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           Navigator.push(
             context,

@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget entryDisplay(BuildContext context, Function()? onTap, QueryDocumentSnapshot doc) {
+Widget entryDisplay(
+    BuildContext context, Function()? onTap, QueryDocumentSnapshot doc) {
   return InkWell(
     onTap: onTap,
     child: Container(
@@ -9,7 +10,9 @@ Widget entryDisplay(BuildContext context, Function()? onTap, QueryDocumentSnapsh
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: Theme.of(context).primaryColor.withOpacity(.2),
+        color: (Theme.of(context).brightness == Brightness.light)
+            ? Theme.of(context).primaryColor.withOpacity(.2)
+            : Theme.of(context).primaryColor.withOpacity(.4),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
