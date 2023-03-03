@@ -13,7 +13,7 @@ Future<void> main() async {
 
 class DigitalJournal extends StatelessWidget {
   const DigitalJournal({Key? key}) : super(key: key);
-q
+
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
