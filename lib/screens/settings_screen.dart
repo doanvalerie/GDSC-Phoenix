@@ -10,35 +10,40 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String dropdownValue = 'Select a theme';
+  String dropdownValue = 'Gray';
   var items = [
-    'Select a theme',
-    'Light Gray',
-    'Light Red',
-    'Light Orange',
-    'Light Green',
-    'Light Blue',
-    'Light Purple',
-    'Light Pink',
+    'Gray',
+    'Red',
+    'Orange',
+    'Green',
+    'Blue',
+    'Purple',
+    'Pink',
     'Dark',
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const Text(
-              "App Theme",
-              style: TextStyle(
-                fontSize: 20,
-              ),
+    return Column (
+      children: <Align> [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding (
+            padding: EdgeInsets.only(left: 10, right: 10, top: 25),
+            child: Text(
+                "Select Theme:",
+                style: TextStyle(fontSize: 20)
             ),
-            DropdownButton(
-                alignment: Alignment.topLeft,
+          )
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
+            child: DropdownButton(
                 value: dropdownValue,
+                isExpanded: true,
+                itemHeight: 80,
                 icon: const Icon(Icons.keyboard_arrow_down),
                 items: items.map((String items) {
                   return DropdownMenuItem(
@@ -51,26 +56,142 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     dropdownValue = newValue!;
                     if (dropdownValue == 'Gray') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightGray);
-                    } else if (dropdownValue == 'Light Red') {
+                    } else if (dropdownValue == 'Red') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightRed);
-                    } else if (dropdownValue == 'Light Orange') {
+                    } else if (dropdownValue == 'Orange') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightOrange);
-                    } else if (dropdownValue == 'Light Green') {
+                    } else if (dropdownValue == 'Green') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightGreen);
-                    } else if (dropdownValue == 'Light Blue') {
+                    } else if (dropdownValue == 'Blue') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightBlue);
-                    } else if (dropdownValue == 'Light Purple') {
+                    } else if (dropdownValue == 'Purple') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightPurple);
-                    } else if (dropdownValue == 'Light Pink') {
+                    } else if (dropdownValue == 'Pink') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.lightPink);
                     } else if (dropdownValue == 'Dark') {
                       DynamicTheme.of(context)?.setTheme(AppThemes.dark);
                     }
                   });
-                }),
-          ],
+                }
+            ),
+          ),
         ),
-      ),
-    );
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: const <Padding>[
+              Padding (
+                padding: EdgeInsets.only(left:10),
+                child: Text(
+                  "Help: ",
+                  style: TextStyle(
+                      fontSize: 20,
+                      letterSpacing: 1
+                  ),
+                ),
+              ),
+              Padding (
+                padding: EdgeInsets.only(left: 5, right: 10),
+                child: Icon(
+                  Icons.help
+                )
+              ),
+            ],
+          )
+        ),
+        const Align(
+          alignment: Alignment.topLeft,
+          child: Padding (
+            padding: EdgeInsets.only(left:10, right: 10, top: 20),
+            child:  Text(
+                "Welcome to your digital journal! "
+                    "This app allows you to easily "
+                    "keep all your notes in the same place."
+            )
+          )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 17),
+                child:  Text(
+                        "New Entry: ",
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 2),
+                child:  Text(
+                        "Make a new entry using the \"new entry\" button "
+                        "on the navigation bar. "
+                        "Give your entry a title, select the folder you want "
+                        "to store it in, and click \"done\" "
+                        "to save the entry"
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 17),
+                child:  Text(
+                    "Accessing Old Entries: ",
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 1),
+                child:  Text(
+                    "Use the \"All Entries\" button"
+                        "on the navigation bar to access past entries, organize, and edit them if needed"
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 17),
+                child:  Text(
+                    "Home:",
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 1),
+                child:  Text(
+                   "You can see your most recent entries on the home page for easy access"
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 17),
+                child:  Text(
+                        "Themes: ",
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                )
+            )
+        ),
+        const Align(
+            alignment: Alignment.topLeft,
+            child: Padding (
+                padding: EdgeInsets.only(left:10, right: 10, top: 1),
+                child:  Text(
+                    "Change color themes of the app using the drop down on the top of this page"
+                )
+            )
+        ),
+        ]
+      );
   }
 }
